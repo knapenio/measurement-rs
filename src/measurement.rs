@@ -1,12 +1,12 @@
 // based on https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Measurement.swift
 
-use super::{Dimension, Unit};
+use super::{Dimension, Unit, Value};
 use std::{cmp::Ordering, fmt, ops};
 
 /// A numeric quantity labeled with a unit of measure, with support for unit conversion and unit-aware calculations.
 #[derive(Clone, PartialEq)]
 pub struct Measurement<U: Unit> {
-    pub value: f64,
+    pub value: Value,
     unit: U,
 }
 
@@ -14,7 +14,7 @@ impl<U: Unit> Copy for Measurement<U> where U: Copy {}
 
 impl<U: Unit> Measurement<U> {
     #[inline]
-    pub const fn new(value: f64, unit: U) -> Self {
+    pub const fn new(value: Value, unit: U) -> Self {
         Measurement { value, unit }
     }
 
@@ -93,24 +93,24 @@ where
     }
 }
 
-impl<U: Unit> ops::Mul<f64> for Measurement<U>
+impl<U: Unit> ops::Mul<Value> for Measurement<U>
 where
     U: Dimension,
 {
     type Output = Self;
 
-    fn mul(self, other: f64) -> Self {
+    fn mul(self, other: Value) -> Self {
         Measurement::new(self.value.mul(other), self.unit)
     }
 }
 
-impl<U: Unit> ops::Div<f64> for Measurement<U>
+impl<U: Unit> ops::Div<Value> for Measurement<U>
 where
     U: Dimension,
 {
     type Output = Self;
 
-    fn div(self, other: f64) -> Self {
+    fn div(self, other: Value) -> Self {
         Measurement::new(self.value.div(other), self.unit)
     }
 }
@@ -165,7 +165,7 @@ mod tests {
     use approx::assert_relative_eq;
 
     #[derive(PartialEq, Clone, Debug)]
-    struct LinearUnit(f64, f64);
+    struct LinearUnit(Value, Value);
 
     #[test]
     fn convert_to_same_unit_is_eq() {
@@ -190,7 +190,7 @@ mod tests {
         let measurement = Measurement::new(103.5, unit.clone());
         let converted = measurement.converted_to(LinearUnit::base_unit());
         assert_eq!(&LinearUnit::base_unit(), converted.unit());
-        assert_relative_eq!(241.25, converted.value, epsilon = f64::EPSILON);
+        assert_relative_eq!(241.25, converted.value, epsilon = Value::EPSILON);
     }
 
     #[test]
@@ -198,7 +198,7 @@ mod tests {
         let unit = LinearUnit(1.0, 0.0);
         let lhs = Measurement::new(103.5, unit.clone());
         let rhs = Measurement::new(100.2, unit.clone());
-        assert_relative_eq!(203.7, (lhs + rhs).value, epsilon = f64::EPSILON);
+        assert_relative_eq!(203.7, (lhs + rhs).value, epsilon = Value::EPSILON);
     }
 
     #[test]

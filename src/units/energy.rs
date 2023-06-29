@@ -1,4 +1,4 @@
-use crate::{Dimension, Unit, UnitConverter};
+use crate::{Dimension, Unit, UnitConverter, Value};
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Energy {
@@ -11,7 +11,7 @@ impl Energy {
         Energy { symbol, converter }
     }
 
-    const fn with_coeff(symbol: &'static str, coeff: f64) -> Self {
+    const fn with_coeff(symbol: &'static str, coeff: Value) -> Self {
         Energy::new(
             symbol,
             UnitConverter::Linear {

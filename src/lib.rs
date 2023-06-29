@@ -1,3 +1,9 @@
+#[cfg(feature = "double-precision")]
+pub type Value = f64;
+
+#[cfg(feature = "single-precision")]
+pub type Value = f32;
+
 mod dimension;
 mod formatter;
 mod measurement;

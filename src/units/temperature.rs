@@ -1,4 +1,4 @@
-use crate::{Dimension, Unit, UnitConverter};
+use crate::{Dimension, Unit, UnitConverter, Value};
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Temperature {
@@ -11,7 +11,7 @@ impl Temperature {
         Temperature { symbol, converter }
     }
 
-    const fn with_coeff_and_constant(symbol: &'static str, coeff: f64, constant: f64) -> Self {
+    const fn with_coeff_and_constant(symbol: &'static str, coeff: Value, constant: Value) -> Self {
         Temperature::new(symbol, UnitConverter::Linear { coeff, constant })
     }
 

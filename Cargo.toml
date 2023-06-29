@@ -9,3 +9,8 @@ edition = "2021"
 
 [dev-dependencies]
 approx = "*"
+
+[features]
+default = ["double-precision"]
+double-precision = []
+single-precision = []

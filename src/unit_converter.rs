@@ -1,18 +1,20 @@
 // based on https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Unit.swift
 
+use crate::Value;
+
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub enum UnitConverter {
-    Linear { coeff: f64, constant: f64 },
+    Linear { coeff: Value, constant: Value },
 }
 
 impl UnitConverter {
-    pub fn convert_to_base_unit(&self, val: f64) -> f64 {
+    pub fn convert_to_base_unit(&self, val: Value) -> Value {
         match self {
             UnitConverter::Linear { coeff, constant } => (val * coeff) + constant,
         }
     }
 
-    pub fn convert_from_base_unit(&self, val: f64) -> f64 {
+    pub fn convert_from_base_unit(&self, val: Value) -> Value {
         match self {
             UnitConverter::Linear { coeff, constant } => (val - constant) / coeff,
         }
