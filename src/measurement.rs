@@ -3,6 +3,7 @@
 use super::{Dimension, Unit};
 use std::{cmp::Ordering, fmt, ops};
 
+/// A numeric quantity labeled with a unit of measure, with support for unit conversion and unit-aware calculations.
 #[derive(Clone, PartialEq)]
 pub struct Measurement<U: Unit> {
     pub value: f64,

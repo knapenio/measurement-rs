@@ -10,6 +10,7 @@ impl Formatter {
         Formatter { precision }
     }
 
+    /// Returns a formatted measurement, e.g. "21.5 °C".
     pub fn format<U>(&self, measurement: &Measurement<U>) -> String
     where
         U: Unit,
